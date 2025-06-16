@@ -1,24 +1,25 @@
-# Vitals
+# Vitals 🩺
 
 **Vitals** is a lightweight, mobile friendly web app for tracking your daily wellness metrics and food intake. 
 Originally built for the **Dads Energy Reset Challenge**, this tool helps you build awareness of how what you eat affects how you feel, day by day.
 
 ## 🌟 Features
 
-- Rate your **energy**, **fatigue**, **mood**, **sleep**, **cravings**, and more on a scale of 1–10
-- Use quick click rating buttons or sliders for fast data entry
-- Descriptive guidance helps you accurately gauge how you feel
-- Clean and responsive UI designed for speed and ease on mobile
-- Perfect for personal health tracking, coaching, or challenges
+✅ Rate key wellness metrics on a 1–10 scale (energy, fatigue, mood, sleep, cravings, and more)
+✅ Quick rating buttons and sliders for fast data input
+✅ Helpful descriptions guide your rating choices
+✅ Clean, responsive design optimized for mobile and desktop
+✅ Perfect for personal tracking, coaching, or health challenges
 
-## 🚀 Getting Started
+Track your daily wellness and discover what really impacts how you feel.
 
-To run the app:
+## 📲 Install Instructions (PWA)
 
-1. Clone this repo:
-   ```bash
-   git clone https://github.com/your-username/vitals.git
-   cd vitals
+Open the site in your browser (Chrome or Safari recommended).
+Tap the browser menu (⋮ or share icon).
+Choose "Add to Home screen" or "Install App".
+Done! The app will run offline too.
+
 
 📈 How It Works
 ```mermaid
