@@ -5,11 +5,11 @@ Originally built for the **Dads Energy Reset Challenge**, this tool helps you bu
 
 ## 🌟 Features
 
-✅ Rate key wellness metrics on a 1–10 scale (energy, fatigue, mood, sleep, cravings, and more)
-✅ Quick rating buttons and sliders for fast data input
-✅ Helpful descriptions guide your rating choices
-✅ Clean, responsive design optimized for mobile and desktop
-✅ Perfect for personal tracking, coaching, or health challenges
+- ✅ Rate key wellness metrics on a 1–10 scale (energy, fatigue, mood, sleep, cravings, and more)
+- ✅ Quick rating buttons and sliders for fast data input
+- ✅ Helpful descriptions guide your rating choices
+- ✅ Clean, responsive design optimized for mobile and desktop
+- ✅ Perfect for personal tracking, coaching, or health challenges
 
 Track your daily wellness and discover what really impacts how you feel.
 
