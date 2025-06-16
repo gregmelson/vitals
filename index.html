@@ -1,0 +1,517 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="manifest" href="manifest.json" />
+  <title>Vitals Check-In</title>
+  <link rel="stylesheet" href="style.css"/>
+  <meta name="theme-color" content="#0078d7" />
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  <!-- App Icons for iOS -->
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      margin: 0;
+      background: #f9fafb;
+      color: #333;
+    }
+    header {
+      background: #2563eb;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.25rem;
+    }
+    main {
+      max-width: 900px;
+      margin: 1rem auto;
+      padding: 1rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+    }
+    form > div {
+      margin-bottom: 1rem;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    input[type="number"] {
+      width: 4rem;
+      padding: 0.3rem;
+      font-size: 1rem;
+    }
+    input[type="text"],
+    textarea {
+      width: 100%;
+      font-size: 1rem;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+    }
+    textarea {
+      height: 60px;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+    }
+    .chart-container {
+      margin-top: 2rem;
+    }
+    canvas {
+      max-width: 100%;
+      height: 240px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+    }
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 0.5rem;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+    th {
+      background: #f3f4f6;
+    }
+    .footer-note {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 1rem;
+      text-align: center;
+    }
+    @media (max-width: 600px) {
+      input[type="number"] {
+        width: 3rem;
+      }
+    }
+  </style>
+<!-- Add this CSS below existing styles -->
+<style>
+  .rating-buttons button {
+  padding: 0.4rem 0.6rem;
+  font-size: 1rem;
+  background: #eee;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.rating-buttons button:hover {
+  background: #ddd;
+}
+
+.rating-buttons button.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+input[type="number"],
+.rating-slider {
+  display: none;
+}
+</style>
+</head>
+<body>
+  <header>Daily Health Check-In</header>
+  <main>
+    <form id="checkin-form" autocomplete="off">
+      <div>
+        <label for="date">Date</label>
+        <input type="date" id="date" required />
+      </div>
+      <fieldset>
+        <legend><strong>Rate from 1 (low) to 10 (high):</strong></legend>
+        <!-- this was the old html <div><label for="energy">Energy</label><input type="number" id="energy" min="1" max="10" required /></div>-->
+<!-- Example of the new html for Energy -->
+<div>
+  <label for="energy">Energy</label>
+  <div class="rating-container">
+    <input type="number" id="energy" min="1" max="10" required>
+    <div class="rating-buttons" data-target="energy">
+      <!-- Buttons created dynamically -->
+    </div>
+  </div>
+  <input type="range" min="1" max="10" value="5" class="rating-slider" data-target="energy">
+  <div class="rating-description" id="desc-energy"></div>
+</div>
+     <!--  <div><label for="fatigue">Fatigue</label><input type="number" id="fatigue" min="1" max="10" required /></div>-->
+<!-- Example of the new html now for Fatigue -->
+<div>
+  <label for="fatigue">Fatigue</label>
+  <div class="rating-container">
+    <input type="number" id="fatigue" min="1" max="10" required>
+    <div class="rating-buttons" data-target="fatigue">
+      <!-- Buttons created dynamically -->
+    </div>
+  </div>
+  <input type="range" min="1" max="10" value="5" class="rating-slider" data-target="fatigue">
+  <div class="rating-description" id="desc-fatigue"></div>
+</div>
+  
+
+ 
+      <!--  <div><label for="cravings">Cravings</label><input type="number" id="cravings" min="1" max="10" required /></div>
+        <div><label for="focus">Focus</label><input type="number" id="focus" min="1" max="10" required /></div>
+        <div><label for="mood">Mood</label><input type="number" id="mood" min="1" max="10" required /></div>
+        <div><label for="sleep">Sleep</label><input type="number" id="sleep" min="1" max="10" required /></div>
+        <div><label for="headaches">Headaches</label><input type="number" id="headaches" min="1" max="10" required /></div>
+        <div><label for="bloating">Bloating</label><input type="number" id="bloating" min="1" max="10" required /></div>-->
+
+<div>
+  <label for="cravings">Cravings</label>
+  <div class="rating-container">
+    <input type="number" id="cravings" min="1" max="10" required>
+    <div class="rating-buttons" data-target="cravings"></div>
+  </div>
+  <input type="range" min="1" max="10" value="5" class="rating-slider" data-target="cravings">
+  <div class="rating-description" id="desc-cravings"></div>
+</div>
+
+<div>
+  <label for="focus">Focus</label>
+  <div class="rating-container">
+    <input type="number" id="focus" min="1" max="10" required>
+    <div class="rating-buttons" data-target="focus"></div>
+  </div>
+  <input type="range" min="1" max="10" value="5" class="rating-slider" data-target="focus">
+  <div class="rating-description" id="desc-focus"></div>
+</div>
+
+<div>
+  <label for="mood">Mood</label>
+  <div class="rating-container">
+    <input type="number" id="mood" min="1" max="10" required>
+    <div class="rating-buttons" data-target="mood"></div>
+  </div>
+  <input type="range" min="1" max="10" value="5" class="rating-slider" data-target="mood">
+  <div class="rating-description" id="desc-mood"></div>
+</div>
+
+<div>
+  <label for="sleep">Sleep</label>
+  <div class="rating-container">
+    <input type="number" id="sleep" min="1" max="10" required>
+    <div class="rating-buttons" data-target="sleep"></div>
+  </div>
+  <input type="range" min="1" max="10" value="5" class="rating-slider" data-target="sleep">
+  <div class="rating-description" id="desc-sleep"></div>
+</div>
+
+<div>
+  <label for="headaches">Headaches</label>
+  <div class="rating-container">
+    <input type="number" id="headaches" min="1" max="10" required>
+    <div class="rating-buttons" data-target="headaches"></div>
+  </div>
+  <input type="range" min="1" max="10" value="5" class="rating-slider" data-target="headaches">
+  <div class="rating-description" id="desc-headaches"></div>
+</div>
+
+<div>
+  <label for="bloating">Bloating</label>
+  <div class="rating-container">
+    <input type="number" id="bloating" min="1" max="10" required>
+    <div class="rating-buttons" data-target="bloating"></div>
+  </div>
+  <input type="range" min="1" max="10" value="5" class="rating-slider" data-target="bloating">
+  <div class="rating-description" id="desc-bloating"></div>
+</div>
+      </fieldset>
+      <fieldset>
+        <legend><strong>Meals & Snacks</strong></legend>
+        <div><label for="breakfast">Breakfast</label><textarea id="breakfast" placeholder="What did you eat or drink?" rows="2"></textarea></div>
+        <div><label for="lunch">Lunch</label><textarea id="lunch" placeholder="What did you eat or drink?" rows="2"></textarea></div>
+        <div><label for="dinner">Dinner</label><textarea id="dinner" placeholder="What did you eat or drink?" rows="2"></textarea></div>
+        <div><label for="snacks">Snacks</label><textarea id="snacks" placeholder="Any snacks or little extras?" rows="2"></textarea></div>
+      </fieldset>
+      <button type="submit">Save Entry</button>
+    </form>
+    <section class="chart-container" aria-label="Weekly Ratings Chart">
+      <canvas id="ratingsChart" aria-hidden="true"></canvas>
+    </section>
+    <section aria-label="Weekly Meals & Snacks">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Breakfast</th>
+            <th>Lunch</th>
+            <th>Dinner</th>
+            <th>Snacks/Drinks</th>
+          </tr>
+        </thead>
+        <tbody id="mealsTableBody"></tbody>
+      </table>
+    </section>
+    <p class="footer-note">Data is saved locally on your device and not shared automatically.</p>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    (() => {
+      const form = document.getElementById("checkin-form");
+      const dateInput = document.getElementById("date");
+      const ratingsFields = ["energy", "fatigue", "cravings", "focus", "mood", "sleep", "headaches", "bloating"];
+      const mealsFields = ["breakfast", "lunch", "dinner", "snacks"];
+      const mealsTableBody = document.getElementById("mealsTableBody");
+      const chartCtx = document.getElementById("ratingsChart").getContext("2d");
+      let entries = JSON.parse(localStorage.getItem("dailyCheckinEntries") || "{}");
+      const todayStr = new Date().toISOString().slice(0, 10);
+      dateInput.value = todayStr;
+      let ratingsChart;
+      function saveEntries() {
+        localStorage.setItem("dailyCheckinEntries", JSON.stringify(entries));
+      }
+      function renderMealsTable() {
+        mealsTableBody.innerHTML = "";
+        const sortedDates = Object.keys(entries).sort();
+        sortedDates.forEach((date) => {
+          const e = entries[date];
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td>${date}</td><td>${e.breakfast || ""}</td><td>${e.lunch || ""}</td><td>${e.dinner || ""}</td><td>${e.snacks || ""}</td>`;
+          mealsTableBody.appendChild(tr);
+        });
+      }
+      function prepareChartData() {
+        const sortedDates = Object.keys(entries).sort();
+        const labels = sortedDates;
+        const datasets = ratingsFields.map((field, i) => {
+          return {
+            label: field.charAt(0).toUpperCase() + field.slice(1),
+            data: sortedDates.map((date) => entries[date][field] || null),
+            borderColor: ["#2563eb", "#ea580c", "#16a34a", "#db2777", "#8b5cf6", "#0ea5e9", "#f43f5e", "#22c55e"][i],
+            fill: false,
+            tension: 0.3,
+            borderWidth: 2,
+            pointRadius: 3
+          };
+        });
+        return { labels, datasets };
+      }
+      function renderChart() {
+        if (ratingsChart) ratingsChart.destroy();
+        const data = prepareChartData();
+        ratingsChart = new Chart(chartCtx, {
+          type: "line",
+          data,
+          options: {
+            responsive: true,
+            interaction: { mode: "nearest", intersect: false },
+            plugins: {
+              legend: { position: "bottom", labels: { boxWidth: 12, padding: 12 } },
+              tooltip: { enabled: true }
+            },
+            scales: {
+              y: {
+                min: 0,
+                max: 10,
+                ticks: { stepSize: 1 },
+                title: { display: true, text: "Rating (1 to 10)" }
+              },
+              x: { title: { display: true, text: "Date" } }
+            }
+          }
+        });
+      }
+      function fillFormIfExists(date) {
+        if (entries[date]) {
+          const e = entries[date];
+          ratingsFields.forEach((field) => { document.getElementById(field).value = e[field] || ""; });
+          mealsFields.forEach((field) => { document.getElementById(field).value = e[field] || ""; });
+        } else {
+          ratingsFields.forEach((field) => { document.getElementById(field).value = ""; });
+          mealsFields.forEach((field) => { document.getElementById(field).value = ""; });
+        }
+      }
+      dateInput.addEventListener("change", () => {
+        fillFormIfExists(dateInput.value);
+      });
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const date = dateInput.value;
+        const newEntry = {};
+        ratingsFields.forEach((field) => {
+          newEntry[field] = parseInt(document.getElementById(field).value, 10) || null;
+        });
+        mealsFields.forEach((field) => {
+          newEntry[field] = document.getElementById(field).value.trim();
+        });
+        entries[date] = newEntry;
+        saveEntries();
+        renderMealsTable();
+        renderChart();
+      });
+      fillFormIfExists(todayStr);
+      renderMealsTable();
+      renderChart();
+    })();
+  </script>
+<!-- JavaScript additions to the existing IIFE -->
+<script>
+(() => {
+  const ratingsFields = ["energy", "fatigue", "cravings", "focus", "mood", "sleep", "headaches", "bloating"];
+
+  const descriptions = {
+    energy: {
+      1: "Unable to function, constant fatigue, need to lie down",
+      2: "Struggling to stay awake, low motivation, heavy limbs",
+      3: "Barely functioning, frequent yawning, can't concentrate",
+      4: "Slow to start, groggy, can do light tasks only",
+      5: "Baseline – okay, not great, can do usual activities",
+      6: "Mild energy, able to work, but not full power",
+      7: "Good energy, motivated, slight fatigue in evening",
+      8: "High energy, mentally sharp, physically ready",
+      9: "Very high energy, excited to move, focused and present",
+      10: "Peak performance – energized, mentally clear, unstoppable"
+    },
+    fatigue: {
+      1: "No fatigue at all, feeling fresh",
+      2: "Barely noticeable tiredness",
+      3: "Slightly tired but manageable",
+      4: "Mild fatigue, still productive",
+      5: "Average fatigue level",
+      6: "Moderate fatigue, slowing down",
+      7: "Noticeably tired, affecting focus",
+      8: "Strong fatigue, pushing through",
+      9: "Heavy fatigue, needing rest soon",
+      10: "Exhausted, unable to continue tasks"
+    },
+    cravings: {
+      1: "No cravings, totally satisfied",
+      2: "Minimal cravings, easy to ignore",
+      3: "Occasional cravings",
+      4: "Mild urge for snacks or sweets",
+      5: "Some cravings, manageable",
+      6: "Frequent cravings, mildly distracting",
+      7: "Strong cravings, thinking about food often",
+      8: "Very strong cravings, hard to resist",
+      9: "Nearly uncontrollable cravings",
+      10: "Overwhelming cravings, acted on impulse"
+    },
+    focus: {
+      1: "Unable to focus at all",
+      2: "Very poor concentration",
+      3: "Distracted easily, hard to complete tasks",
+      4: "Below average focus",
+      5: "Moderate focus, can complete tasks",
+      6: "Above average focus with occasional distractions",
+      7: "Good focus, mostly on task",
+      8: "Very focused, productive day",
+      9: "Extremely sharp focus",
+      10: "Laser focus, totally immersed in tasks"
+    },
+    mood: {
+      1: "Very low mood, hopelessness",
+      2: "Sad, down, teary",
+      3: "Low motivation, withdrawn",
+      4: "Below average mood",
+      5: "Neutral or okay mood",
+      6: "Slightly upbeat",
+      7: "Good mood, smiling",
+      8: "Happy, energetic mood",
+      9: "Joyful, very positive outlook",
+      10: "Euphoric, top of the world feeling"
+    },
+    sleep: {
+      1: "No sleep at all",
+      2: "Very poor sleep, barely rested",
+      3: "Interrupted sleep, low rest",
+      4: "Light sleep, waking often",
+      5: "Average sleep, not fully rested",
+      6: "Slept okay, mild grogginess",
+      7: "Good quality sleep",
+      8: "Very restful sleep",
+      9: "Excellent sleep, fully recharged",
+      10: "Best sleep ever, woke up refreshed"
+    },
+    headaches: {
+      1: "No headaches",
+      2: "Very faint headache",
+      3: "Occasional, mild headache",
+      4: "Dull, manageable pain",
+      5: "Noticeable headache",
+      6: "Distracting headache",
+      7: "Throbbing pain, difficult to focus",
+      8: "Strong headache, needs rest or meds",
+      9: "Very intense headache",
+      10: "Debilitating migraine-level pain"
+    },
+    bloating: {
+      1: "No bloating at all",
+      2: "Very slight bloating",
+      3: "Occasionally noticeable bloating",
+      4: "Mild bloating",
+      5: "Somewhat bloated",
+      6: "Moderate bloating, uncomfortable",
+      7: "Noticeably bloated, tight clothing",
+      8: "Very bloated, distended stomach",
+      9: "Painfully bloated",
+      10: "Severe bloating, needs relief"
+    }
+  };
+
+  function syncRating(fieldId, value) {
+    const input = document.getElementById(fieldId);
+    const slider = document.querySelector(`.rating-slider[data-target='${fieldId}']`);
+    const desc = document.getElementById(`desc-${fieldId}`);
+    input.value = value;
+    slider.value = value;
+    if (desc) desc.textContent = descriptions[fieldId]?.[value] || "";
+    document.querySelectorAll(`.rating-buttons[data-target='${fieldId}'] button`).forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.value === value.toString());
+    });
+  }
+
+  function initRatingsUI() {
+    ratingsFields.forEach(fieldId => {
+      const container = document.querySelector(`.rating-buttons[data-target='${fieldId}']`);
+      if (!container) return;
+      container.innerHTML = ""; // Clear if already filled
+      for (let i = 1; i <= 10; i++) {
+        const btn = document.createElement('button');
+        btn.type = "button";
+        btn.textContent = i;
+        btn.dataset.value = i;
+        btn.addEventListener("click", () => syncRating(fieldId, i));
+        container.appendChild(btn);
+      }
+
+      const input = document.getElementById(fieldId);
+      const slider = document.querySelector(`.rating-slider[data-target='${fieldId}']`);
+      if (input && slider) {
+        input.addEventListener("input", () => syncRating(fieldId, parseInt(input.value)));
+        slider.addEventListener("input", () => syncRating(fieldId, parseInt(slider.value)));
+      }
+    });
+  }
+
+  initRatingsUI();
+})();
+</script>
+
+</body>
+</html>
