@@ -21,10 +21,11 @@ To run the app:
    cd vitals
 
 📈 How It Works
-flowchart TD**
+```mermaid
+flowchart TD
   A[🟢 Start Check-in] --> B[🍽️ Enter Food Details]
   B --> C[📊 Select Ratings]
   C --> D[🔍 Review Input]
   D --> E[💾 Save Entry]
   E --> F[📈 Reflect & Compare Later]
-**
+
