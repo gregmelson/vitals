@@ -15,11 +15,10 @@ Track your daily wellness and discover what really impacts how you feel.
 
 ## 📲 Install Instructions (PWA)
 
-Open the site in your browser (Chrome or Safari recommended).
-Tap the browser menu (⋮ or share icon).
-Choose "Add to Home screen" or "Install App".
-Done! The app will run offline too.
-
+1. Open the site in your browser (Chrome or Safari recommended).
+2. Tap the browser menu (⋮ or share icon).
+3. Choose **"Add to Home screen"** or **"Install App"**.
+4. Done! The app will run offline too.
 
 📈 How It Works
 ```mermaid
